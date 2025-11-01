@@ -91,7 +91,6 @@ parts:
       - -DCMAKE_PREFIX_PATH=/snap/lxqt-support/current/usr
     override-build: |
       craftctl default
-      sed -i 's|Name=LXQt File Archiver|Name=LXQt File Archiver [NyKyu]|' $CRAFT_PART_INSTALL/usr/share/applications/lxqt-archiver.desktop
       sed -i 's|Icon=lxqt-archiver|Icon=${SNAP}/usr/share/icons/hicolor/scalable/apps/lxqt-archiver.svg|' $CRAFT_PART_INSTALL/usr/share/applications/lxqt-archiver.desktop
       sed -i 's|Exec=lxqt-archiver %U|Exec=${SNAP}/usr/bin/lxqt-archiver %U|' $CRAFT_PART_INSTALL/usr/share/applications/lxqt-archiver.desktop
 
@@ -101,5 +100,5 @@ parts:
 
   dependencies-2:
     plugin: nil
-    stage-packages: [zip, rar, 7zip, tar, zstd]
+    stage-packages: [zip, unzip, rar, 7zip, 7zip-rar, tar, xz-utils, zstd, rpm2cpio, gzip, bzip2, bzip3]
     prime: [usr/bin, usr/lib]

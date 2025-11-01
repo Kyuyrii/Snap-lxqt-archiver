@@ -101,4 +101,4 @@ parts:
   dependencies-2:
     plugin: nil
     stage-packages: [zip, unzip, rar, 7zip, 7zip-rar, tar, xz-utils, zstd, rpm2cpio, gzip, bzip2, bzip3]
-    prime: [usr/bin, usr/lib]
+    prime: [usr/bin, usr/lib, usr/sbin]

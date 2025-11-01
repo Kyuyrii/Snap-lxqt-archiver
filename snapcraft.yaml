@@ -1,0 +1,108 @@
+name: lxqt-archiver
+base: core24
+version: '1.2.0'
+platforms:
+  amd64:
+    build-on: [amd64]
+    build-for: [amd64]
+  arm64:
+    build-on: [arm64]
+    build-for: [arm64]
+summary: A simple & lightweight Qt file archiver.
+description: |
+  A simple & lightweight desktop-agnostic Qt file archiver
+grade: stable
+confinement: strict
+
+apps:
+  lxqt-archiver:
+    command: usr/bin/lxqt-archiver
+    desktop: usr/share/applications/lxqt-archiver.desktop
+    environment:
+      HOME: $SNAP_REAL_HOME
+      QT_QPA_PLATFORMTHEME: xdgdesktopportal
+      LD_LIBRARY_PATH: $SNAP/lxqt-support/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:$LD_LIBRARY_PATH
+      QT_PLUGIN_PATH: $SNAP/lxqt-support/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qt6/plugins:$QT_PLUGIN_PATH
+    extensions: [kde-neon-6]
+    plugs:
+      - unity7
+      - home
+      - removable-media
+      - mount-observe
+
+plugs:
+  shared-memory:
+    private: true
+  lxqt-support:
+    content: lxqt-support
+    interface: content
+    target: $SNAP/lxqt-support
+    default-provider: lxqt-support
+
+layout:
+  /usr/share/color-schemes:
+    symlink: $SNAP/lxqt-support/usr/share/color-schemes
+  /usr/share/Kvantum:
+    symlink: $SNAP/lxqt-support/usr/share/Kvantum
+  /usr/share/lxqt-archiver/translations:
+    symlink: $SNAP/usr/share/lxqt-archiver/translations
+  /usr/lib/7zip:
+    symlink: $SNAP/usr/lib/7zip
+  /usr/lib/menu-cache:
+    symlink: $SNAP/usr/lib/menu-cache
+
+parts:
+  lxqt-archiver-app:
+    plugin: cmake
+    source: https://github.com/lxqt/lxqt-archiver.git
+    source-tag: $SNAPCRAFT_PROJECT_VERSION
+    build-snaps: [lxqt-support]
+    build-packages:
+      - pkg-config
+      - libjson-glib-dev
+      - libglib2.0-dev
+      - libmenu-cache-dev
+      - libxcb-render0-dev
+      - libxcb-shape0-dev
+      - libxcb-xfixes0-dev
+      - libxcb-shm0-dev
+      - libxcb-util-dev
+      - libxcb-composite0-dev
+      - libxcb-cursor-dev
+      - libxcb-damage0-dev
+      - libxcb-dpms0-dev
+      - libxcb-dri2-0-dev
+      - libxcb-dri3-dev
+      - libxcb-ewmh-dev
+      - libxcb-glx0-dev
+      - libxcb-icccm4-dev
+      - libxcb-keysyms1-dev
+      - libxcb-present-dev
+      - libxcb-record0-dev
+      - libxcb-res0-dev
+      - libxcb-screensaver0-dev
+      - libxcb-xf86dri0-dev
+      - libxcb-xinerama0-dev
+      - libxcb-xinput-dev
+      - libxcb-xkb-dev
+      - libxcb-xtest0-dev
+      - libxcb-xv0-dev
+      - libxcb-xvmc0-dev
+      - libexif-dev
+    cmake-parameters:
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DCMAKE_PREFIX_PATH=/snap/lxqt-support/current/usr
+    override-build: |
+      craftctl default
+      sed -i 's|Name=LXQt File Archiver|Name=LXQt File Archiver [NyKyu]|' $CRAFT_PART_INSTALL/usr/share/applications/lxqt-archiver.desktop
+      sed -i 's|Icon=lxqt-archiver|Icon=${SNAP}/usr/share/icons/hicolor/scalable/apps/lxqt-archiver.svg|' $CRAFT_PART_INSTALL/usr/share/applications/lxqt-archiver.desktop
+      sed -i 's|Exec=lxqt-archiver %U|Exec=${SNAP}/usr/bin/lxqt-archiver %U|' $CRAFT_PART_INSTALL/usr/share/applications/lxqt-archiver.desktop
+
+  dependencies:
+    plugin: nil
+    stage-packages: [libmenu-cache3, libmenu-cache-bin]
+
+  dependencies-2:
+    plugin: nil
+    stage-packages: [zip, rar, 7zip, tar, zstd]
+    prime: [usr/bin, usr/lib]

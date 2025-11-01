@@ -5,9 +5,6 @@ platforms:
   amd64:
     build-on: [amd64]
     build-for: [amd64]
-  arm64:
-    build-on: [arm64]
-    build-for: [arm64]
 summary: A simple & lightweight Qt file archiver.
 description: |
   A simple & lightweight desktop-agnostic Qt file archiver

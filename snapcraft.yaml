@@ -18,8 +18,8 @@ apps:
     environment:
       HOME: $SNAP_REAL_HOME
       QT_QPA_PLATFORMTHEME: xdgdesktopportal
-      LD_LIBRARY_PATH: $SNAP/lxqt-support/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:$LD_LIBRARY_PATH
-      QT_PLUGIN_PATH: $SNAP/lxqt-support/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qt6/plugins:$QT_PLUGIN_PATH
+      LD_LIBRARY_PATH: $SNAP/lxqt-support-core24/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:$LD_LIBRARY_PATH
+      QT_PLUGIN_PATH: $SNAP/lxqt-support-core24/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qt6/plugins:$QT_PLUGIN_PATH
     extensions: [kde-neon-6]
     plugs:
       - unity7
@@ -30,17 +30,17 @@ apps:
 plugs:
   shared-memory:
     private: true
-  lxqt-support:
-    content: lxqt-support
+  lxqt-support-core24:
+    content: lxqt-support-core24
     interface: content
-    target: $SNAP/lxqt-support
-    default-provider: lxqt-support
+    target: $SNAP/lxqt-support-core24
+    default-provider: lxqt-support-core24
 
 layout:
   /usr/share/color-schemes:
-    symlink: $SNAP/lxqt-support/usr/share/color-schemes
+    symlink: $SNAP/lxqt-support-core24/usr/share/color-schemes
   /usr/share/Kvantum:
-    symlink: $SNAP/lxqt-support/usr/share/Kvantum
+    symlink: $SNAP/lxqt-support-core24/usr/share/Kvantum
   /usr/share/lxqt-archiver/translations:
     symlink: $SNAP/usr/share/lxqt-archiver/translations
   /usr/lib/7zip:
@@ -53,7 +53,7 @@ parts:
     plugin: cmake
     source: https://github.com/lxqt/lxqt-archiver.git
     source-tag: $SNAPCRAFT_PROJECT_VERSION
-    build-snaps: [lxqt-support]
+    build-snaps: [lxqt-support-core24]
     build-packages:
       - pkg-config
       - libjson-glib-dev
@@ -88,7 +88,7 @@ parts:
       - libexif-dev
     cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
-      - -DCMAKE_PREFIX_PATH=/snap/lxqt-support/current/usr
+      - -DCMAKE_PREFIX_PATH=/snap/lxqt-support-core24/current/usr
     override-build: |
       craftctl default
       sed -i 's|Icon=lxqt-archiver|Icon=${SNAP}/usr/share/icons/hicolor/scalable/apps/lxqt-archiver.svg|' $CRAFT_PART_INSTALL/usr/share/applications/lxqt-archiver.desktop

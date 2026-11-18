@@ -34,8 +34,8 @@ layout:
     symlink: $SNAP/usr/share/lxqt-archiver/translations
   /usr/lib/7zip:
     symlink: $SNAP/usr/lib/7zip
-  /usr/lib/menu-cache:
-    symlink: $SNAP/usr/lib/menu-cache
+  /usr/bin/tar:
+    bind-file: $SNAP/bin/disable
 
 parts:
   lxqt-archiver-app:
